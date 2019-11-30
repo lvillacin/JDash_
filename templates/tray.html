@@ -1,0 +1,155 @@
+{% include "header.html" %}
+
+<div class="tray page-header">
+  <div class="row">
+    <div class="col-md-10"><h1>Food Tray</h1></div>
+    <div class="col-md-2"><a href='/stalls'><button name="Back" class="btn btn-default" value="Back">Order</button></a></div>
+  </div>
+</div>
+
+{% if session["cart"] is defined and session["cart"]|length > 0  %}
+  <div class="container-fluid">
+  {% if bite is defined and bite|length > 0 %}
+    <div class="tray_stallname">
+      <h4>8-Bite</h4>
+    </div>
+    <div class="tray_items">
+      <table class="table borderless">
+        <colgroup>
+          <col class="col-md-3"/>
+          <col class="col-md-2"/>
+          <col class="col-md-3"/>
+          <col class="col-md-2"/>
+          <col class="col-md-2"/>
+        </colgroup>
+        {% for item_bite in bite %}
+        <div class="tray_item">
+          <form action="/update" method="POST">
+            <tr>
+              <td>{{item_bite["name"]}}</td>
+              <td><input type="number" name="qty_cart" value="{{ item_bite['qty'] }}" required></td>
+                <input type="hidden" name="price" value='{{ item_bite["price"] }}'>
+                <input type="hidden" name="name" value='{{ item_bite["name"] }}'>
+              <td>{{ item_bite["subtotal"] }}</td>
+              <td><button type="submit" class="btn btn-default" name="submit" value="Update">Update</button></td>
+              <td><button type="submit" class="btn btn-default" name="submit" value="Remove">Remove</button></td>
+            </tr>
+          </form>
+        {% endfor %}
+      </table>
+    </div>
+  {% endif %}
+
+  {% if kwento is defined and kwento|length > 0 %}
+    <div class="tray_stallname">
+      <h4>Kwentong Kanin</h4>
+    </div>
+    <div class="tray_items">
+      <table class="table borderless">
+        <colgroup>
+          <col class="col-md-3"/>
+          <col class="col-md-2"/>
+          <col class="col-md-3"/>
+          <col class="col-md-2"/>
+          <col class="col-md-2"/>
+        </colgroup>
+        {% for item_kwento in kwento %}
+        <div class="tray_item">
+          <form action="/update" method="POST">
+            <tr>
+              <td>{{item_kwento["name"]}}</td>
+              <td><input type="number" name="qty_cart" value="{{ item_kwento['qty'] }}" required></td>
+                <input type="hidden" name="price" value='{{ item_kwento["price"] }}'>
+                <input type="hidden" name="name" value='{{ item_kwento["name"] }}'>
+              <td>{{ item_kwento["subtotal"] }}</td>
+              <td><button type="submit" class="btn btn-default" name="submit" value="Update">Update</button></td>
+              <td><button type="submit" class="btn btn-default" name="submit" value="Remove">Remove</button></td>
+            </tr>
+          </form>
+        {% endfor %}
+      </table>
+    </div>
+  {% endif %}
+
+  {%if kusina is defined and kusina|length > 0 %}
+    <div class="tray_stallname">
+      <h4>Kusina</h4>
+    </div>
+    <div class="tray_items">
+      <table class="table borderless">
+        <colgroup>
+          <col class="col-md-3"/>
+          <col class="col-md-2"/>
+          <col class="col-md-3"/>
+          <col class="col-md-2"/>
+          <col class="col-md-2"/>
+        </colgroup>
+        {% for item_kusina in kusina %}
+        <div class="tray_item">
+          <form action="/update" method="POST">
+            <tr>
+              <td>{{item_kusina["name"]}}</td>
+              <td><input type="number" name="qty_cart" value="{{ item_kusina['qty'] }}" required></td>
+                <input type="hidden" name="price" value='{{ item_kusina["price"] }}'>
+                <input type="hidden" name="name" value='{{ item_kusina["name"] }}'>
+              <td>{{ item_kusina["subtotal"] }}</td>
+              <td><button type="submit" class="btn btn-default" name="submit" value="Update">Update</button></td>
+              <td><button type="submit" class="btn btn-default" name="submit" value="Remove">Remove</button></td>
+            </tr>
+          </form>
+        {% endfor %}
+      </table>
+    </div>
+  {% endif %}
+
+  <div class="tray_stallname">
+    <form action="/checkout" method="POST">
+    <table class="table borderless">
+      <colgroup>
+        <col class="col-md-3"/>
+        <col class="col-md-2"/>
+        <col class="col-md-3"/>
+        <col class="col-md-2"/>
+        <col class="col-md-2"/>
+      </colgroup>
+      <tr>
+        <td><button class="btn btn-default" name="submit" value="Clear Cart">Clear Tray</button></td>
+        <td>Total</td>
+        <td>{{ session["cart"].values()|sum(attribute="subtotal") }}</td>
+          <input type="hidden" name="total" value="{{ session['cart'].values()|sum(attribute='subtotal') }}">
+        <td>
+          <select class="form-control" id="sel1" name="location" required>
+            <option selected hidden disabled>Select Delivery Location</option>
+            <option>SEC-A</option>
+            <option>SEC-B</option>
+            <option>SEC-C</option>
+            <option>Matteo Ricci</option>
+            <option>SOM</option>
+            <option>CTC</option>
+            <option>Berchman</option>
+            <option>Kostka</option>
+            <option>Gonzaga</option>
+            <option>MVP</option>
+            <option>Faura Hall</option>
+            <option>Dela Costa</option>
+            <option>New Rizal Library</option>
+            <option>Old Rizal Library</option>
+            <option>Social Sciences</option>
+            <option>Leong Hall</option>
+            <option>Faber Hall</option>
+            <option>Xavier Hall</option>
+            <option>Bellarmine Hall</option>
+
+          </select>
+        </td>
+        <td><button class="btn btn-default" name="submit" value="Checkout">Checkout</button></td>
+      </tr>
+    </table>
+    </form>
+  </div>
+  </div>
+{% else %}
+  <div><p>Oops! Looks like you still haven't ordered!</p></div>
+{% endif %}
+
+{% include "footer.html" %}

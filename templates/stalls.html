@@ -1,0 +1,24 @@
+{% include "header.html" %}
+
+<div class="page-header">
+  <h1>The Stalls</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+  {% for stall in stall_list %}
+    <a href="stalldetails?name={{stall['name']}}">
+    <div class="col-md-4 stall">
+      <img src="/static/images/{{ stall['name']}}.jpg" alt="{{ stall['name']}}" width="300" height="300">
+      <br />
+      <h3>{{stall['name']}}</h3>
+      <br />
+      <p>{{stall['writeup']}}</p>
+    </div>
+    </a>
+  {% endfor %}
+  </div>
+</div>
+
+
+{% include "footer.html" %}

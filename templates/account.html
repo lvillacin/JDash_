@@ -1,0 +1,66 @@
+{% include "header.html" %}
+
+<div class="page-header">
+  <h1>Account</h1>
+</div>
+
+<div class="container-fluid">
+  <form action="/accountsetting" method="POST">
+
+   <div class="form-group">
+     <label for="username">Email address:</label>
+     <input type="email" class="form-control" id="username" value="{{user['username']}}" disabled>
+   </div>
+
+   <div class="form-group">
+     <label for="firstname">First Name:</label>
+     <input type="text" class="form-control" id="firstname" value="{{user['first_name']}}"disabled>
+   </div>
+
+   <div class="form-group">
+     <label for="lastname">Last Name:</label>
+     <input type="text" class="form-control" id="lastname" value="{{user['last_name']}}" disabled>
+   </div>
+
+   <div class="form-group">
+     <label for="password">Password:</label>
+     <input type="password" class="form-control" id="password" value="{{user['password']}}"disabled>
+   </div>
+
+   <button type="submit" class="btn btn-default" name="action" value="user">Change User</button>
+   <button type="submit" class="btn btn-default" name="action" value="pw">Change Password</button>
+
+  </form>
+</div>
+
+<div class="page-header">
+  <h1>Order History</h1>
+</div>
+
+{% if noorder is sameas true %}
+<div class="standard text">
+  <p>It seems like you have not yet ordered before. Taste the best food in campus <a href="/stalls">here</a>.</p>
+{% else %}
+  <div class="container-fluid">
+    <table class="table borderless">
+      <colgroup>
+        <col class="col-md-3"/>
+        <col class="col-md-3"/>
+        <col class="col-md-3"/>
+        <col class="col-md-3"/>
+      </colgroup>
+        <tr><th>Date</th><th>Time</th><th>Delivery Location</th><th>Total</th><tr>
+      {% for order in order_list %}
+        <tr>
+          <td>{{ order["orderdate"].strftime('%b-%d-%Y') }}</td>
+          <td>{{ order["orderdate"].strftime('%H:%M') }}</td>
+          <td>{{ order["location"]}}</td>
+          <td>{{ order["total"]}}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endif %}
+
+
+{% include "footer.html" %}
